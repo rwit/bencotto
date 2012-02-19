@@ -1,21 +1,34 @@
 from django.db import models
-
-#@todo Should be part of auth package, right?
-#class users
-#class groups
+from django.contrib.auth.models import User
 
 class rusk(models.Model):
+    user = models.ForeignKey(User, unique=False, verbose_name='submitted by')
+    title = models.CharField(max_length=64)
     description = models.TextField()
 #@todo notice requires python imaging library
 #    image = models.ImageField()
-#@todo likes should not be here because a user should be able to unlike
-#    likes = models.IntegerField()
-    views = models.IntegerField()
-    date_added = models.DateTimeField()
+    views = models.IntegerField(default=0)
+    date_added = models.DateTimeField(auto_now_add=True)
     
-#    def __unicode__(self):
-#        .self
+    def __unicode__(self):
+        return self.title
 
-class rusk_comments(models.Model):
-    rusk = models.ForeignKey('rusk')
+class likes(models.Model):
+    user = models.ForeignKey(User)
+    rusk = models.ForeignKey(rusk)
+    
+    class Meta:
+        unique_together = ('user', 'rusk')
+    
+class comments(models.Model):
+    user = models.ForeignKey(User)
+    rusk = models.ForeignKey(rusk)
     comment = models.CharField(max_length=128)
+    
+    def __unicode__(self):
+        #c = {'rusk':self.rusk, 'user':self.user, 'comment':self.comment}
+        #return str(c)
+        return self.comment 
+    
+    class Meta:
+        unique_together = ('user', 'rusk')

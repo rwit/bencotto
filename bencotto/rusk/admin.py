@@ -1,0 +1,27 @@
+from django.contrib import admin
+from rusk.models import *
+
+class ruskAdmin(admin.ModelAdmin):
+    list_display = ('title', 'user', 'date_added', 'views')
+    #search_fields = ('')
+    #list_filter =
+    fields = ('user', 'title', 'description')
+    #filter_horizontal = () for any n-to-n fields 
+
+class likesAdmin(admin.ModelAdmin):
+    list_display = ('user', 'rusk')
+    #search_fields = ('')
+    #list_filter =
+    #fields = ('')
+    #filter_horizontal = () for any n-to-n fields 
+                 
+class commentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'rusk', 'comment')
+    #search_fields = ('')
+    #list_filter =
+    #fields = ('')
+    #filter_horizontal = () for any n-to-n fields 
+                 
+admin.site.register(rusk, ruskAdmin)
+admin.site.register(likes, likesAdmin)
+admin.site.register(comments, commentAdmin)
