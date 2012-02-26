@@ -7,3 +7,9 @@ from django.contrib.auth.views import login as authlogin
 def profile(request):
     return render_to_response('user_logged_in.html', {'user':request.user})
 
+def home(request):
+    if request.user.is_authenticated():
+        return profile(request)
+    else:
+        return render_to_response('home.html')
+

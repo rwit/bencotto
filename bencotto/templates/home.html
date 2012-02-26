@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+This page is showed when home and not logged in. Should display some rusk pictures, and a login and/or registration button.
+
+<form action="login" method="get">
+	<input type="submit" value="login" />
+	<input type="hidden" name="next" value="{{ next|escape }}" />
+</form>
+
+<form action="register" method="get">
+	<input type="submit" value="register" />
+	<input type="hidden" name="next" value="{{ next|escape }}" />
+</form>
+
+{% endblock %}
