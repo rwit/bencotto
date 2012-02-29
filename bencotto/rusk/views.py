@@ -14,6 +14,7 @@ def home(request):
     else:
         return render_to_response('home.html')
 
+@login_required
 def add(request):
     if request.method == 'POST': # If the form has been submitted...
         form = RuskForm(request.POST) # A form bound to the POST data
@@ -27,5 +28,6 @@ def add(request):
 
     return render_to_response('add.html', {'form': form,})
 
+@login_required
 def list(request):
     return render_to_response('home.html')
