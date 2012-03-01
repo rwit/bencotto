@@ -1,7 +1,9 @@
-{% extends "base.html" %}
+{% extends "base-defaults.html" %}
+
+{# Example: we don't want the liked most in this particular view #}
+{% block sidebar-liked-most-rusk %}{% endblock %}
 
 {% block content %}
-
 {% if form.subject.errors %}
     <ol>
     {% for error in form.subject.errors %}

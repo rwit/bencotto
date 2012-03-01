@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{#
+This decides the ordering/placement of sidebar blocks for a group of templates.
+The child template can still remove these by overwriting the named blocks; like sidebar-newest-rusk
+#}
+
+{% block sidebar-left %}
+  {% block sidebar-newest-rusk %}{% include "sidebar/newest-rusk.html" %}{% endblock %}
+  {% block sidebar-liked-most-rusk %}{% include "sidebar/liked-most-rusk.html" %}{% endblock %}
+  {% block sidebar-most-viewed-rusk %}{% include "sidebar/most-viewed-rusk.html" %}{% endblock %}
+{% endblock %}
