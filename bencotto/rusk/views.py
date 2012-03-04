@@ -22,7 +22,7 @@ def add(request):
             rusk = form.save(commit=False)
             rusk.user = request.user
             rusk.save()
-            return HttpResponseRedirect('/list/')
+            return HttpResponseRedirect('/list')
     else:
         form = RuskForm() # An unbound form
 

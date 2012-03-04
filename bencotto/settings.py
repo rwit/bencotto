@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'rusk',
     'south',
+    'django_coverage', #enables to run "python manage.py test_coverage rusk -v2" for coverage information
 )
 
 # A sample logging configuration. The only tangible logging
@@ -151,3 +152,6 @@ LOGGING = {
         },
     }
 }
+
+# django_coverage settings (overloading defaults from /usr/local/lib/python2.7/dist-packages/django_coverage/settings.py)
+COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(os.path.dirname(__file__), 'reports')
