@@ -8,15 +8,14 @@ from bencotto.rusk.forms import RuskForm
 
 @login_required
 def profile(request):
-    return render_to_response('user_logged_in.html', {'user':request.user})
+    return render_to_response('user_logged_in.html', {'user':request.user}, context_instance=RequestContext(request))
 
 def home(request):
     if request.user.is_authenticated():
         return profile(request)
     else:
         randomRusks = rusk.objects.all()
-        #return render_to_response('home.html', {'rusks': randomRusks})
-        return render_to_response('home.html', context_instance=RequestContext(request))
+        return render_to_response('home.html', {'rusks': randomRusks}, context_instance=RequestContext(request))
 
 @login_required
 def add(request):
@@ -30,7 +29,7 @@ def add(request):
     else:
         form = RuskForm() # An unbound form
 
-    return render_to_response('add.html', {'form': form,})
+    return render_to_response('add.html', {'form': form,}, context_instance=RequestContext(request))
 
 @login_required
 def list(request):
