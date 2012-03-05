@@ -15,7 +15,7 @@ def home(request):
         return profile(request)
     else:
         randomRusks = rusk.objects.all()
-        return render_to_response('home.html', {'rusks': randomRusks})
+        #return render_to_response('home.html', {'rusks': randomRusks})
         return render_to_response('home.html', context_instance=RequestContext(request))
 
 @login_required
