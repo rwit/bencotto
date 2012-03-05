@@ -1,8 +1,10 @@
 # Django settings for bencotto project.
 import os.path
+import django.conf.global_settings as DEFAULT_SETTINGS
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+INTERNAL_IPS = ('127.0.0.1') #Enable the debug context processor
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -127,6 +129,12 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'rusk',
     'south',
+    'django_coverage', #enables to run "python manage.py test_coverage rusk -v2" for coverage information
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request',
+    'rusk.context_processors.sidebar.sidebar'
 )
 
 # A sample logging configuration. The only tangible logging
@@ -151,3 +159,6 @@ LOGGING = {
         },
     }
 }
+
+# django_coverage settings (overloading defaults from /usr/local/lib/python2.7/dist-packages/django_coverage/settings.py)
+COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(os.path.dirname(__file__), 'reports')

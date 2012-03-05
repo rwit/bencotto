@@ -62,7 +62,17 @@
       </div><!--/row-->
       <hr>
       <footer>
-        {% block footer %}{% endblock %}
+        {% block footer %}
+        {{ request.META.REMOTE_ADDR }}
+        Dump queries:
+        <table><body>
+        {% for q in sql_queries %}
+            <tr>
+            <td>{{ q.time }}</td><td nowrap>{{ q.sql }}</td>
+            </tr>
+        {% endfor %}
+        </body></table>
+        {% endblock %}
       </footer>
     </div><!--/.fluid-container-->
 
