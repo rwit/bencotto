@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as authlogin
+from bencotto.rusk.models import rusk, likes, comments
 from bencotto.rusk.forms import RuskForm
 
 @login_required
@@ -12,7 +13,8 @@ def home(request):
     if request.user.is_authenticated():
         return profile(request)
     else:
-        return render_to_response('home.html')
+        randomRusks = rusk.objects.all()
+        return render_to_response('home.html', {'rusks': randomRusks})
 
 @login_required
 def add(request):

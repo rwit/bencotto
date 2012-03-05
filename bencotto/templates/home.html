@@ -3,6 +3,11 @@
 {% block content %}
 This page is showed when home and not logged in. Should display some rusk pictures, and a login and/or registration button.
 
+<ul>
+{% for rusk in rusks %}
+	<li>{{ rusk.title }}</li>
+{% endfor %}
+</ul>
 <form action="login" method="get">
 	<input type="submit" value="login" />
 	<input type="hidden" name="next" value="{{ next|escape }}" />
