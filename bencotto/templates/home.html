@@ -13,4 +13,12 @@ This page is showed when home and not logged in. Should display some rusk pictur
 	<input type="hidden" name="next" value="{{ next|escape }}" />
 </form>
 
+{# Lists the rusks #}
+Rusks:
+<ul>
+{% for rusk in rusks %}
+    <li>{{ rusk }}</li>
+{% endfor %}
+</ul>
+
 {% endblock %}
