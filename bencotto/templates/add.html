@@ -12,7 +12,7 @@
     </ol>
 {% endif %}
 
-<form action="/add/" method="post">
+<form action="/add/" method="post" enctype="multipart/form-data">
 
 {# csrf token required for csrf middleware #}
 {% csrf_token %}

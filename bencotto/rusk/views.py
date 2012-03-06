@@ -20,8 +20,10 @@ def home(request):
 @login_required
 def add(request):
     if request.method == 'POST': # If the form has been submitted...
-        form = RuskForm(request.POST) # A form bound to the POST data
+        form = RuskForm(request.POST, request.FILES) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
+            #The default file upload handlers have put the file in MEDIA_ROOT + <upload_to>; request.FILES['image'] is an instance of UploadedFile)
+            #@todo Now the data should be handled futher (scale, move, etc...)
             rusk = form.save(commit=False)
             rusk.user = request.user
             rusk.save()

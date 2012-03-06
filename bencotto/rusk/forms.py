@@ -1,8 +1,8 @@
 from django.forms import ModelForm
-from rusk.models import *
+from bencotto.rusk.models import rusk
 
 class RuskForm(ModelForm):
     class Meta:
         model = rusk
-        fields = ('title', 'description')
+        fields = ('title', 'description', 'image')
         

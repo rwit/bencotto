@@ -63,15 +63,22 @@
       <hr>
       <footer>
         {% block footer %}
-        {{ request.META.REMOTE_ADDR }}
-        Dump queries:
-        <table><body>
+        
+        {# Dump the queries made and their performance #}
+        <table class="table table-striped">
+        <thead>
+        <tr>
+        <th>#</th><th>time</th><th>query</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for q in sql_queries %}
             <tr>
-            <td>{{ q.time }}</td><td nowrap>{{ q.sql }}</td>
+            <td>{{ forloop.counter }}</td><td>{{ q.time }}</td><td nowrap>{{ q.sql }}</td>
             </tr>
         {% endfor %}
         </body></table>
+        
         {% endblock %}
       </footer>
     </div><!--/.fluid-container-->

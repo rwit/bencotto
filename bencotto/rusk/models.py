@@ -5,8 +5,7 @@ class rusk(models.Model):
     user = models.ForeignKey(User, unique=False, verbose_name='submitted by')
     title = models.CharField(max_length=64)
     description = models.TextField()
-#@todo notice requires python imaging library
-#    image = models.ImageField()
+    image = models.ImageField(upload_to='uploadedImages')
     views = models.IntegerField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
     
