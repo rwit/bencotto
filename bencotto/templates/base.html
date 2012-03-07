@@ -32,19 +32,13 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
           <a class="brand" href="#">Bencotto</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="/add/">Add a rusk</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
+        <ul class="nav">
+          {% for tab in tabs %}
+          	{% if tab.is_active %}<li class="active">{% else %}<li>{% endif %}
+          	<a href="{{ tab.link }}">{{ tab.title }}</a></li>
+          {% endfor %}
+        </ul>
         </div>
       </div>
     </div>

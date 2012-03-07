@@ -134,7 +134,8 @@ INSTALLED_APPS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
-    'rusk.context_processors.sidebar.sidebar'
+    'rusk.context_processors.sidebar.sidebar',
+    'rusk.context_processors.tabs.tabs',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -142,19 +143,33 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
 # the site admins on every HTTP 500 error.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
+        'file': {
+            'class' : 'logging.handlers.RotatingFileHandler',
+            #'formatter': 'precise',
+            'level': 'DEBUG',
+            'filename': os.path.join(os.path.dirname(__file__), 'logging', 'logging.log'),
+            'maxBytes': 65536,
+            'backupCount': 3,
+        },
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
     },
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
+            'propagate': True,
+        },
+        'rusk.context_processors.tabs': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
             'propagate': True,
         },
     }

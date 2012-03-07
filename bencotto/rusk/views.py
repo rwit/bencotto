@@ -6,16 +6,34 @@ from django.contrib.auth.views import login as authlogin
 from bencotto.rusk.models import rusk, likes, comments
 from bencotto.rusk.forms import RuskForm
 
-@login_required
-def profile(request):
-    return render_to_response('user_logged_in.html', {'user':request.user}, context_instance=RequestContext(request))
-
+#@login_required
+#def profile(request):
+#    return render_to_response('user_logged_in.html', {'user':request.user}, context_instance=RequestContext(request))
+#
 def home(request):
-    if request.user.is_authenticated():
-        return profile(request)
-    else:
-        randomRusks = rusk.objects.all()
-        return render_to_response('home.html', {'rusks': randomRusks}, context_instance=RequestContext(request))
+    return HttpResponseRedirect('/popular')
+
+#    if request.user.is_authenticated():
+#        return profile(request)
+#    else:
+#        randomRusks = rusk.objects.all()
+#        return render_to_response('home.html', {'rusks': randomRusks}, context_instance=RequestContext(request))
+
+def popular(request):
+    #@todo pagination
+    #@todo popular or latest (in url /list/latest; parse into view argument; or 'get' argument?)
+    #@todo when logged in; additional tabs: login landing (profile) with my rusks, my friends rusks and notifications
+    r = rusk.objects.all()
+    return render_to_response('home.html', {'rusks': r}, context_instance=RequestContext(request))
+
+def latest(request):
+    r = rusk.objects.all()
+    return render_to_response('home.html', {'rusks': r}, context_instance=RequestContext(request))
+
+def show_rusk(request):
+    """Display a single rusk in full detail"""
+    r = rusk.objects.all()
+    return render_to_response('home.html', {'rusks': r}, context_instance=RequestContext(request))
 
 @login_required
 def add(request):
@@ -27,13 +45,24 @@ def add(request):
             rusk = form.save(commit=False)
             rusk.user = request.user
             rusk.save()
-            return HttpResponseRedirect('/list')
+            return HttpResponseRedirect('/latest')
     else:
         form = RuskForm() # An unbound form
 
     return render_to_response('add.html', {'form': form,}, context_instance=RequestContext(request))
 
 @login_required
-def list(request):
+def rusks(request):
+    r = rusk.objects.all()
+    return render_to_response('home.html', {'rusks': r}, context_instance=RequestContext(request))
+
+@login_required
+def friends(request):
+    r = rusk.objects.all()
+    return render_to_response('home.html', {'rusks': r}, context_instance=RequestContext(request))
+
+@login_required
+def notifications(request):
+    """Lists the notifications; user likes, user follows, ..."""
     r = rusk.objects.all()
     return render_to_response('home.html', {'rusks': r}, context_instance=RequestContext(request))
