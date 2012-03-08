@@ -1,7 +1,7 @@
 """
 Tests related to adding new rusks
 """
-
+import os.path
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -24,6 +24,7 @@ class AddTest(TestCase):
         post_data = {
             'title': u'New Rusk',
             'description': u'This is the new rusk description',
+            'image': open(os.path.join(os.path.dirname(__file__), 'data', 'test_image.gif'), 'r'),
         }
         response = self.client.post(reverse('add_rusk'), post_data, follow=False)
 
@@ -33,4 +34,4 @@ class AddTest(TestCase):
         #self.assertContains(response, 'New Rusk') #enable als list view in orde is
         
         #Expect redirect to list view after new rusk is added
-        self.assertRedirects(response, reverse('list_rusks'))
+        self.assertRedirects(response, reverse('latest'))

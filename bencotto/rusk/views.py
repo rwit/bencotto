@@ -3,14 +3,17 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as authlogin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from bencotto.rusk.models import rusk, likes, comments
 from bencotto.rusk.forms import RuskForm
+from bencotto.rusk.image_processing import image_processing
 
 #@login_required
 #def profile(request):
 #    return render_to_response('user_logged_in.html', {'user':request.user}, context_instance=RequestContext(request))
 #
 def home(request):
+    """main landing page; simply redirects to popular"""
     return HttpResponseRedirect('/popular')
 
 #    if request.user.is_authenticated():
@@ -20,11 +23,20 @@ def home(request):
 #        return render_to_response('home.html', {'rusks': randomRusks}, context_instance=RequestContext(request))
 
 def popular(request):
-    #@todo pagination
-    #@todo popular or latest (in url /list/latest; parse into view argument; or 'get' argument?)
-    #@todo when logged in; additional tabs: login landing (profile) with my rusks, my friends rusks and notifications
-    r = rusk.objects.all()
-    return render_to_response('home.html', {'rusks': r}, context_instance=RequestContext(request))
+    """popularity is indicated by the number of views"""
+    allRusks = rusk.objects.all().order_by('-views')
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+    paginator = Paginator(allRusks, 3)
+    try:
+        rusks = paginator.page(page)
+    except InvalidPage:
+        rusks = paginator.page(1)
+    except EmptyPage:
+        rusks = paginator.page(paginator.num_pages)
+    return render_to_response('list.html', {'rusks': rusks}, context_instance=RequestContext(request))
 
 def latest(request):
     r = rusk.objects.all()
@@ -41,10 +53,20 @@ def add(request):
         form = RuskForm(request.POST, request.FILES) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
             #The default file upload handlers have put the file in MEDIA_ROOT + <upload_to>; request.FILES['image'] is an instance of UploadedFile)
-            #@todo Now the data should be handled futher (scale, move, etc...)
-            rusk = form.save(commit=False)
+            
+            rusk = form.save(commit=False) #saves cleaned data into model instance; the image field gets assigned the InMemoryUploadedFile object
+            
+            #raise NameError(form.cleaned_data['image'])
+            
+            #raise NameError(format(request.FILES))
             rusk.user = request.user
-            rusk.save()
+            
+            #rusk.image = image_processing.image_processing(rusk.user.id, form.cleaned_data['image'])
+            #car.photo.save('myphoto.jpg', content, save=False)
+            
+            #raise NameError(format(rusk))
+            #raise NameError('testing.... A:{} B:{}'.format(request.FILES, rusk.image))
+            rusk.save() #Hier pas wordt 
             return HttpResponseRedirect('/latest')
     else:
         form = RuskForm() # An unbound form

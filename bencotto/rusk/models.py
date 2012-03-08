@@ -1,5 +1,8 @@
+import logging
 from django.db import models
 from django.contrib.auth.models import User
+
+logger = logging.getLogger(__name__)
 
 class rusk(models.Model):
     user = models.ForeignKey(User, unique=False, verbose_name='submitted by')
@@ -11,7 +14,15 @@ class rusk(models.Model):
     
     def __unicode__(self):
         return self.title
-
+    
+    #@todo overload save_model in admin.py ?
+#    def save(self, *args, **kwargs):
+#        super(rusk, self).save(*args, **kwargs)
+#        
+#    def delete(self, *args, **kwargs):
+#        #todo delete the image files
+#        super(rusk, self).save(*args, **kwargs)
+        
 class likes(models.Model):
     user = models.ForeignKey(User)
     rusk = models.ForeignKey(rusk)
