@@ -3,10 +3,9 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as authlogin
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from bencotto.rusk.models import rusk, likes, comments
 from bencotto.rusk.forms import RuskForm
-from bencotto.rusk.image_processing import image_processing
 
 #@login_required
 #def profile(request):
@@ -52,21 +51,9 @@ def add(request):
     if request.method == 'POST': # If the form has been submitted...
         form = RuskForm(request.POST, request.FILES) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
-            #The default file upload handlers have put the file in MEDIA_ROOT + <upload_to>; request.FILES['image'] is an instance of UploadedFile)
-            
             rusk = form.save(commit=False) #saves cleaned data into model instance; the image field gets assigned the InMemoryUploadedFile object
-            
-            #raise NameError(form.cleaned_data['image'])
-            
-            #raise NameError(format(request.FILES))
             rusk.user = request.user
-            
-            #rusk.image = image_processing.image_processing(rusk.user.id, form.cleaned_data['image'])
-            #car.photo.save('myphoto.jpg', content, save=False)
-            
-            #raise NameError(format(rusk))
-            #raise NameError('testing.... A:{} B:{}'.format(request.FILES, rusk.image))
-            rusk.save() #Hier pas wordt 
+            rusk.save() 
             return HttpResponseRedirect('/latest')
     else:
         form = RuskForm() # An unbound form

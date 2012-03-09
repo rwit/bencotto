@@ -1,14 +1,19 @@
+import os.path
 import logging
 from django.db import models
 from django.contrib.auth.models import User
 
 logger = logging.getLogger(__name__)
 
+def createRuskImagePath(rusk, filename):
+    """Generate the upload path dynamically; including the user id in the path"""
+    return os.path.join('rusks', str(rusk.user.id), filename)
+    
 class rusk(models.Model):
     user = models.ForeignKey(User, unique=False, verbose_name='submitted by')
     title = models.CharField(max_length=64)
     description = models.TextField()
-    image = models.ImageField(upload_to='uploadedImages')
+    image = models.ImageField(upload_to=createRuskImagePath) #'uploadedImages')
     views = models.IntegerField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
     

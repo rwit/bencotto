@@ -1,5 +1,6 @@
 from django.db.models import Count
 from bencotto.rusk.models import rusk, likes
+from bencotto.rusk.image_processing import image_processing
 
 def sidebarLikedMostRusk(request):
     #select the rusk that is liked the most using aggregation
@@ -22,7 +23,10 @@ def sidebarMostViewedRusk(request):
     r = rusk.objects.all().order_by('-views')[:1]
     try:
         return dict({
-            'mostViewedRusk': r[0],
+            'mostViewedRusk': dict({
+                'rusk':r[0],
+                'thumb':image_processing.getThumbnail(r[0].image)
+            })
         })
     except IndexError:
         #Empty dict to indicate no newest rusk available

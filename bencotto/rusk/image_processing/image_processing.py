@@ -4,30 +4,60 @@ import logging
 import StringIO
 from PIL import Image
 from django.conf import settings
-#from bencotto.rusk.models import rusk
+#from django.db.models import ImageField
+
+#from django.core.files.uploadedfile import InMemoryUploadedFile
+#from django.core.files.storage import default_storage
+#from django.core.files.base import ContentFile
 
 logger = logging.getLogger(__name__)
 
+def getThumbFilename(imageField, thumbSize):
+    (root, ext) = os.path.splitext(imageField)
+    (x, y) = thumbSize
+    return root + '_thumb' + format(x) + 'x' + format(y) + '.jpg'
+    
+def getThumbnail(imageField):
+    #raise NameError(imageField.name) rusks/1/images_logo_lg.gif
+    THUMBNAIL_SIZE = (50, 50)
+    mediaPath = os.path.join(getThumbFilename(imageField.name, THUMBNAIL_SIZE))
+    image = Image.open(imageField)
+    if image.mode not in ('L', 'RGB'):
+        image = image.convert('RGB')
+    image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+    image.save(os.path.join(settings.MEDIA_ROOT, mediaPath), "JPEG")
+    return mediaPath
+    
+    
 def image_processing(ruskUserId, uploadedFile):
     """
+    @todo: currently only snippets and not actually used; alternative used to generate the path dynamically using a callable
+    thumb creation shall be done lazy
     @todo: create thumbnail
     @todo: handle file already exists
     """
-    targetPath = os.path.join(settings.MEDIA_ROOT, 'rusks', str(ruskUserId), uploadedFile.name)
-    if not os.path.exists(targetPath):
-        os.makedirs(targetPath)
-    logger.debug('image_processing: {} => {}'.format(uploadedFile, targetPath))
+    mediaPath = os.path.join('rusks', str(ruskUserId), uploadedFile.name)
+    fullMediaPath = os.path.join(settings.MEDIA_ROOT, mediaPath)
+    if not os.path.exists(fullMediaPath):
+        os.makedirs(fullMediaPath)
+    #logger.debug('image_processing: {} => {}'.format(uploadedFile, targetPath))
 
     #May be an in-memory file or file on disk
-    data = StringIO.StringIO(uploadedFile.read())
-    
+    #content_type = uploadedFile.content_type #image/gif
+    inData = StringIO.StringIO(uploadedFile.read())
+
+    #Move into final destination
+    #Ipv hier direct weg t eschrijven zouden we het imageField moeten overschrijven met een andere locatie: HOE?
+    default_storage.save(mediaPath, ContentFile(inData.read()))
+
     #Move the original
-    image = Image.open(StringIO.StringIO(data));
+    image = Image.open(inData);
     #image = Image.open('/home/pbor/bencotto/bencotto/rusk/tests/data/test_image.gif');
     #Image.open(StringIO("/home/blaine/Pictures/Me/neck-beard.jpg").read()) 
-    image.save(targetPath)
+    outData = StringIO.StringIO()
+    image.save(outData, format='JPEG')
     
-    return targetPath
+    return InMemoryUploadedFile(outData, None, 'foo.jpg', 'image/jpeg', outData.len, None)
 #    
 #>>> image = Image.open(StringIO.StringIO(data)); image.save("/home/ptarjan/www/tmp/metaward/original.png")
 #
