@@ -1,5 +1,5 @@
 #from django.conf import settings
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -52,12 +52,16 @@ def latest(request):
         rusks = paginator.page(1)
     except EmptyPage:
         rusks = paginator.page(paginator.num_pages)
-    return render_to_response('list.html', {'rusks': rusks}, context_instance=RequestContext(request))
+    return render_to_response('list.html', {'rusks': rusks, 'title': 'The latest rusks'}, context_instance=RequestContext(request))
 
 def show_rusk(request, ruskId):
     """Display a single rusk in full detail"""
-    r = rusk.objects.all()
-    return render_to_response('home.html', {'rusks': r}, context_instance=RequestContext(request))
+    try:
+        ruskId = int(ruskId)
+    except ValueError:
+        raise Http404()
+    singleRusk = rusk.objects.get(id=ruskId)
+    return render_to_response('rusk.html', {'singleRusk': singleRusk}, context_instance=RequestContext(request))
 
 @login_required
 def add(request):

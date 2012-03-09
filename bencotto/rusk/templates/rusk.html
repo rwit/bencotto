@@ -1,0 +1,20 @@
+{% extends "base-defaults.html" %}
+
+{% block content %}
+<div class="row-fluid show-grid">
+  <div class="span12">
+    <h2>{{ singleRusk.title }}</h2>
+    <img src="{{ MEDIA_URL }}{{ singleRusk.image }}" title="{{ singleRusk.title }}">
+    <table class="table">
+    <tbody>
+    <tr><td>Title</td><td>{{ singleRusk.title }}</td></tr>
+    <tr><td>Date</td><td>{{ singleRusk.date_added|date:"d-M-Y" }}</td></tr>
+    <tr><td>Submitted by</td><td>{{ singleRusk.user }}</td></tr>
+    <tr><td>Views</td><td>{{ singleRusk.views }}</td></tr>
+    <tr><td>Likes</td><td>{{ singleRusk.user }}</td></tr>
+    </tbody>
+    </table>    
+  </div>
+</div>
+
+{% endblock %}

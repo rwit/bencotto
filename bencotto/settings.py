@@ -184,3 +184,6 @@ LOGGING = {
 
 # django_coverage settings (overloading defaults from /usr/local/lib/python2.7/dist-packages/django_coverage/settings.py)
 COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(os.path.dirname(__file__), 'reports')
+
+THUMBNAIL_SIDEBAR_SIZE = (140, 140)
+THUMBNAIL_GRID_SIZE = (250, 250)

@@ -17,14 +17,13 @@ def getThumbFilename(imagePath, thumbSize):
     (x, y) = thumbSize
     return root + '_thumb' + format(x) + 'x' + format(y) + '.jpg'
     
-def getThumbnail(imagePath):
+def getThumbnail(imagePath, thumbnailSize):
     #raise NameError(imageField.name) rusks/1/images_logo_lg.gif
-    THUMBNAIL_SIZE = (140, 140)
-    thumbnailMediaPath = os.path.join(getThumbFilename(imagePath, THUMBNAIL_SIZE))
+    thumbnailMediaPath = os.path.join(getThumbFilename(imagePath, thumbnailSize))
     image = Image.open(os.path.join(settings.MEDIA_ROOT, imagePath))
     if image.mode not in ('L', 'RGB'):
         image = image.convert('RGB')
-    image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+    image.thumbnail(thumbnailSize, Image.ANTIALIAS)
     image.save(os.path.join(settings.MEDIA_ROOT, thumbnailMediaPath), "JPEG")
     return thumbnailMediaPath
     
