@@ -1,8 +1,5 @@
-import logging
 import urllib
 from django.core.urlresolvers import reverse
-
-#logger = logging.getLogger(__name__)
 
 def isActive(path, pattern):
     import re

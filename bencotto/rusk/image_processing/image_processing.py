@@ -18,13 +18,16 @@ def getThumbFilename(imagePath, thumbSize):
     return root + '_thumb' + format(x) + 'x' + format(y) + '.jpg'
     
 def getThumbnail(imagePath, thumbnailSize):
-    #raise NameError(imageField.name) rusks/1/images_logo_lg.gif
     thumbnailMediaPath = os.path.join(getThumbFilename(imagePath, thumbnailSize))
-    image = Image.open(os.path.join(settings.MEDIA_ROOT, imagePath))
-    if image.mode not in ('L', 'RGB'):
-        image = image.convert('RGB')
-    image.thumbnail(thumbnailSize, Image.ANTIALIAS)
-    image.save(os.path.join(settings.MEDIA_ROOT, thumbnailMediaPath), "JPEG")
+    try:
+        image = Image.open(os.path.join(settings.MEDIA_ROOT, imagePath))
+        if image.mode not in ('L', 'RGB'):
+            image = image.convert('RGB')
+        image.thumbnail(thumbnailSize, Image.ANTIALIAS)
+        image.save(os.path.join(settings.MEDIA_ROOT, thumbnailMediaPath), "JPEG")
+    except IOError, e:
+        logger.error('error during thumb creation generated {} {}'.format(thumbnailMediaPath, e))
+        thumbnailMediaPath = ''
     return thumbnailMediaPath
     
 #    

@@ -1,4 +1,5 @@
 #from django.conf import settings
+from django.db.models import F
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -60,8 +61,22 @@ def show_rusk(request, ruskId):
         ruskId = int(ruskId)
     except ValueError:
         raise Http404()
-    singleRusk = rusk.objects.get(id=ruskId)
-    return render_to_response('rusk.html', {'singleRusk': singleRusk}, context_instance=RequestContext(request))
+    #increment the views count
+    rusk.objects.filter(id=ruskId).update(views=F('views')+1)
+    
+    #retrieve the data including data from joins
+    r = rusk.objects.raw( 
+        'SELECT ' +
+        '"rusk_rusk"."id", "rusk_rusk"."title", "rusk_rusk"."image", "rusk_rusk"."date_added", ' +
+        '"rusk_likes"."rusk_id", ' +
+        'T4."username", COUNT("rusk_likes"."rusk_id") AS "num_likes" ' +
+        'FROM ' +
+        '"rusk_rusk" ' +
+        'LEFT JOIN "rusk_likes" ON ("rusk_likes"."rusk_id" = "rusk_rusk"."id") ' +
+        'INNER JOIN "auth_user" T4 ON ("rusk_rusk"."user_id" = T4."id") ' +
+        'WHERE "rusk_rusk"."id" = "' + str(ruskId) + '" ' +
+        'GROUP BY "rusk_likes"."rusk_id" ')
+    return render_to_response('rusk.html', {'singleRusk': r[0]}, context_instance=RequestContext(request))
 
 @login_required
 def add(request):

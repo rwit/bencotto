@@ -149,18 +149,24 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s - %(filename)s(%(lineno)d)',
+        },
+    },
     'handlers': {
         'file': {
             'class' : 'logging.handlers.RotatingFileHandler',
-            #'formatter': 'precise',
+            'formatter': 'simple',
             'level': 'DEBUG',
             'filename': os.path.join(os.path.dirname(__file__), 'logging', 'logging.log'),
             'maxBytes': 65536,
             'backupCount': 3,
         },
         'mail_admins': {
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'simple',
             'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
         },
     },
     'loggers': {
