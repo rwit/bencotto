@@ -1,19 +1,23 @@
+{% load thumbnails %}
 {% if mostViewedRusk %}
   <div class="well">
     <ul class="nav nav-list">
       <li class="nav-header">Most viewed rusk</li>
       <li>
 		<ul class="thumbnails">
-		  <li class="span2">
+		  <li class="span10">
 		    <div class="thumbnail">
-		      <img src="{{ MEDIA_URL }}{{ mostViewedRusk.thumb }}" alt="{{ mostViewedRusk.rusk.title }}">
-		      <h5>{{ mostViewedRusk.rusk.title }}</h5>
-		      <p></p>
+		      <a href="{% url rusk mostViewedRusk.rusk.id %}">
+                <img src="{{ MEDIA_URL }}{% generateThumbnail mostViewedRusk.rusk.image.name %}" title="{{ mostViewedRusk.rusk.title }}">
+              </a>
 		    </div>
 		  </li>
-		  ...
 		</ul>      
       </li>
+      <li><h5>{{ mostViewedRusk.rusk.title }}</h5></li>
+      <li>Added {{ mostViewedRusk.rusk.date_added|date:"d-M-Y" }}</li>
+      <li>By {{ mostViewedRusk.rusk.user }}</li>
+      <li>Views {{ mostViewedRusk.rusk.views }}</li>
     </ul>
   </div>
 {% endif %}

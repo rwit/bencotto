@@ -9,5 +9,5 @@ urlpatterns = patterns('rusk.views',
     url(r'^rusks', 'rusks', name='rusks'),
     url(r'^friends', 'friends', name='friends'),
     url(r'^notifications', 'notifications', name='notifications'),
-    url(r'^rusk', 'show_rusk', name='rusk'),
+    url(r'^rusk/(\d+)/$', 'show_rusk', name='rusk'),
 )

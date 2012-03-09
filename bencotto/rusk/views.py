@@ -1,3 +1,4 @@
+#from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -35,13 +36,25 @@ def popular(request):
         rusks = paginator.page(1)
     except EmptyPage:
         rusks = paginator.page(paginator.num_pages)
-    return render_to_response('list.html', {'rusks': rusks}, context_instance=RequestContext(request))
+    return render_to_response('list.html', {'rusks': rusks, 'title': 'Most popular rusks'}, context_instance=RequestContext(request))
 
 def latest(request):
-    r = rusk.objects.all()
-    return render_to_response('home.html', {'rusks': r}, context_instance=RequestContext(request))
+    """latest indicated by date added"""
+    allRusks = rusk.objects.all().order_by('-date_added')
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+    paginator = Paginator(allRusks, 3)
+    try:
+        rusks = paginator.page(page)
+    except InvalidPage:
+        rusks = paginator.page(1)
+    except EmptyPage:
+        rusks = paginator.page(paginator.num_pages)
+    return render_to_response('list.html', {'rusks': rusks}, context_instance=RequestContext(request))
 
-def show_rusk(request):
+def show_rusk(request, ruskId):
     """Display a single rusk in full detail"""
     r = rusk.objects.all()
     return render_to_response('home.html', {'rusks': r}, context_instance=RequestContext(request))

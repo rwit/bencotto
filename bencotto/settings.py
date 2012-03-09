@@ -138,6 +138,14 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'rusk.context_processors.tabs.tabs',
 )
 
+# str object not callable :(
+## Seperate list of context processors for non admin views
+#CUSTOM_CONTEXT_PROCESSORS = (
+#    'django.core.context_processors.request',
+#    'rusk.context_processors.sidebar.sidebar',
+#    'rusk.context_processors.tabs.tabs',
+#)
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

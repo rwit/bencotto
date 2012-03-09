@@ -1,12 +1,28 @@
 {% extends "base-defaults.html" %}
+{% load thumbnails %}
 
 {% block content %}
-
-<ul>
+<div class="row-fluid show-grid">
+  <div class="span6">
+    <h2>{{ title }}</h2>
+    <ul class="thumbnails">
 {% for rusk in rusks.object_list %}
-    <li>{{ rusk }}</li>
+      <li class="span4">
+        <div class="thumbnail">
+          <a href="{% url rusk rusk.id %}">
+            <img src="{{ MEDIA_URL }}{% generateThumbnail rusk.image.name %}" title="{{ rusk.title }}">
+          </a>
+          <div class="caption">
+            <h5>{{ rusk.title }}</h5>
+            <p>Added {{ rusk.date_added|date:"d-M-Y" }}</p>
+            <p>By {{ rusk.user }}</p>
+          </div>
+        </div>
+      </li>
 {% endfor %}
-</ul>
+    </ul>
+  </div>
+</div>
 
 <div>
     <ul class="pager">
