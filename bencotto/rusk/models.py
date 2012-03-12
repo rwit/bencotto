@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 def createRuskImagePath(rusk, filename):
     """Generate the upload path dynamically; including the user id in the path"""
-    return os.path.join('rusks', str(rusk.user.id), filename)
+    return os.path.join('rusks', str(rusk.user.id), os.path.basename(filename))
     
 class rusk(models.Model):
     user = models.ForeignKey(User, unique=False, verbose_name='submitted by')

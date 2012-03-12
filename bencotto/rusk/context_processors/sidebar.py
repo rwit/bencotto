@@ -3,18 +3,25 @@ from bencotto.rusk.models import rusk, likes
 
 def sidebarLikedMostRusk(request):
     #select the rusk that is liked the most using aggregation
-    l = likes.objects.annotate(num_likes=Count('id')).order_by('-num_likes') \
-        .values('rusk__id', 'rusk__title', 'rusk__image', 'rusk__date_added', 'rusk__user__username', 'num_likes')[:1]
-    #SELECT "rusk_rusk"."title", "rusk_rusk"."description", COUNT("rusk_likes"."id") AS "num_likes" 
-    #FROM "rusk_likes" 
-    #INNER JOIN "rusk_rusk" ON ("rusk_likes"."rusk_id" = "rusk_rusk"."id") 
-    #GROUP BY "rusk_likes"."id", "rusk_likes"."user_id", "rusk_likes"."rusk_id", "rusk_rusk"."title", "rusk_rusk"."description" 
-    #ORDER BY "num_likes" 
-    #DESC LIMIT 1  
+    #notice the model query api inserts group_by's for fields that are not meant to be grouped
+    #l = likes.objects.annotate(num_likes=Count('rusk__id')).order_by('-num_likes') \
+    #    .values('rusk__id', 'rusk__title', 'rusk__image', 'rusk__date_added', 'rusk__user__username', 'num_likes')[:1]
+    r = rusk.objects.raw( 
+        'SELECT ' +
+        '"rusk_rusk"."id", "rusk_rusk"."title", "rusk_rusk"."image", "rusk_rusk"."date_added", ' +
+        '"rusk_likes"."rusk_id", ' +
+        'T4."username", COUNT("rusk_likes"."rusk_id") AS "num_likes" ' +
+        'FROM ' +
+        '"rusk_rusk" ' +
+        'INNER JOIN "rusk_likes" ON ("rusk_likes"."rusk_id" = "rusk_rusk"."id") ' +
+        'INNER JOIN "auth_user" T4 ON ("rusk_rusk"."user_id" = T4."id") ' +
+        'GROUP BY "rusk_likes"."rusk_id" ' +
+        'ORDER BY "num_likes" DESC LIMIT 1')
+
     try:
         return dict({
             'likedMostRusk': dict({
-                'rusk':l[0], #Only issue here is that the returned object is in fact not a rusk but contains referenced items like rusk__title
+                'rusk':r[0], #Only issue here is that the returned object is in fact not a rusk but contains referenced items like rusk__title
             })
         })
     except IndexError:

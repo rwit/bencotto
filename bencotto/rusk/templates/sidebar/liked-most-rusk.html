@@ -7,15 +7,15 @@
         <ul class="thumbnails">
           <li class="span10">
             <div class="thumbnail">
-              <a href="{% url rusk likedMostRusk.rusk.rusk__id %}">
-                <img src="{{ MEDIA_URL }}{% generateThumbnailSidebar likedMostRusk.rusk.rusk__image %}" title="{{ likedMostRusk.rusk.rusk__title }}">
+              <a href="{% url rusk likedMostRusk.rusk.id %}">
+                <img src="{{ MEDIA_URL }}{% generateThumbnailSidebar likedMostRusk.rusk.image.name %}" title="{{ likedMostRusk.rusk.title }}">
               </a>
             </div>
           </li>
         </ul>      
       </li>
-      <li><h5>{{ likedMostRusk.rusk.rusk__title }}</h5></li>
-      <li>Added {{ likedMostRusk.rusk.rusk__date_added|date:"d-M-Y" }}</li>
+      <li><h5>{{ likedMostRusk.rusk.title }}</h5></li>
+      <li>Added {{ likedMostRusk.rusk.date_added|date:"d-M-Y" }}</li>
       <li>By {{ likedMostRusk.rusk.rusk__user__username }}</li>
       <li>Likes {{ likedMostRusk.rusk.num_likes }}</li>
     </ul>
