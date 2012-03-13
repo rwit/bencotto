@@ -58,20 +58,23 @@
       <footer>
         {% block footer %}
         
-        {# Dump the queries made and their performance #}
-        <table class="table table-striped">
-        <thead>
-        <tr>
-        <th>#</th><th>time</th><th>query</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for q in sql_queries %}
+        {% if sql_queries %}
+            {# Dump the queries made and their performance #}
+            <table class="table table-striped">
+            <thead>
             <tr>
-            <td>{{ forloop.counter }}</td><td>{{ q.time }}</td><td nowrap>{{ q.sql }}</td>
+            <th>#</th><th>time</th><th>query</th>
             </tr>
-        {% endfor %}
-        </body></table>
+            </thead>
+            <tbody>
+            {% for q in sql_queries %}
+                <tr>
+                <td>{{ forloop.counter }}</td><td>{{ q.time }}</td><td nowrap>{{ q.sql }}</td>
+                </tr>
+            {% endfor %}
+            </body>
+            </table>
+        {% endif %}
         
         {% endblock %}
       </footer>
