@@ -8,6 +8,10 @@ from django.contrib.auth.views import login as authlogin
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from bencotto.rusk.models import rusk, likes, comments
 from bencotto.rusk.forms import RuskForm
+import logging
+ 
+ 
+logger = logging.getLogger(__name__)
 
 #@login_required
 #def profile(request):
@@ -76,7 +80,14 @@ def show_rusk(request, ruskId):
         'INNER JOIN "auth_user" T4 ON ("rusk_rusk"."user_id" = T4."id") ' +
         'WHERE "rusk_rusk"."id" = "' + str(ruskId) + '" ' +
         'GROUP BY "rusk_likes"."rusk_id" ')
-    return render_to_response('rusk.html', {'singleRusk': r[0]}, context_instance=RequestContext(request))
+    
+    # find out if the user already has liked this rusk
+    if likes.objects.filter(rusk__id = ruskId, user = request.user):
+        already_liked = True
+    else:
+        already_liked = False
+
+    return render_to_response('rusk.html', {'singleRusk': r[0], 'already_liked': already_liked}, context_instance=RequestContext(request))
 
 @login_required
 def add(request):

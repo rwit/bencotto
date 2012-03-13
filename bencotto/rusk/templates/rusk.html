@@ -3,7 +3,16 @@
 {% block content %}
 <div class="row-fluid show-grid">
   <div class="span12">
-    <h2>{{ singleRusk.title }}</h2>
+  	<p>{{ users_who_liked_this_rusk }}</p>
+  	{% if user.is_authenticated %}
+  		{% if already_liked %}
+    		<h2>{{ singleRusk.title }} <button class="btn btn-warning" href="#">Unlike</button></h2>
+		{% else %}
+			<h2>{{ singleRusk.title }} <button class="btn btn-success" href="#">Like</button></h2>
+		{% endif %}
+    {% else %}
+    	<h2>{{ singleRusk.title }} </h2>
+    {% endif %}
     <img src="{{ MEDIA_URL }}{{ singleRusk.image }}" title="{{ singleRusk.title }}">
     <table class="table">
     <tbody>
