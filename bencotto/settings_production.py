@@ -1,3 +1,4 @@
+import os.path
 from settings_common import *
 
 DEBUG = False
@@ -6,7 +7,7 @@ TEMPLATE_DEBUG = False
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'sqlite.db',
+        'NAME': os.path.join(os.path.dirname(__file__), 'sqlite.db'),
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.

@@ -3,33 +3,34 @@
 # sudo ln -s ~/bencotto/deployment/apache2/bencotto /etc/apache2/sites-enabled/bencotto
 #
 <VirtualHost *:80>
-	ServerAdmin peebor@gmail.com
+	ServerAdmin webmaster@bencotto.com
 	ServerName bencotto.local
-	DocumentRoot /usr/local/bencotto/bencotto/bencotto
-	#Alias /project_root /usr/local/bencotto/bencotto/bencotto/media_root
-	Alias /project_root /home/pbor/bencotto/bencotto
+	#@todo currently pointing to users workarea, but should be a standalone clone where no editing takes place
+	#DocumentRoot /usr/local/bencotto/bencotto/bencotto
+	DocumentRoot /home/pbor/bencotto/bencotto
 	
+	#configure logging
 	#Temp extra logging
 	LogLevel info
 
-	Alias /media_root /usr/local/bencotto/bencotto/bencotto/media_root
+	Alias /media_root /home/pbor/bencotto/bencotto/media_root
 	<Location /media_root>
 		Order allow,deny
 		Allow from all
 	</Location>
 
-	Alias /static /usr/local/bencotto/bencotto/bencotto/static
+	Alias /static /home/pbor/bencotto/bencotto/static
 	<Location /static>
 		Order allow,deny
 		Allow from all
 	</Location>
 
 	# Django settings
-	WSGIScriptAlias / /usr/local/bencotto/bencotto/bencotto/wsgi_handler.py
+	WSGIScriptAlias / /home/pbor/bencotto/bencotto/wsgi_handler.py
 	WSGIDaemonProcess bencotto.local processes=1 threads=10 display-name=%{GROUP}
 	WSGIProcessGroup bencotto.local
 
-	<Directory /usr/local/bencotto/bencotto/bencotto>
+	<Directory /home/pbor/bencotto/bencotto>
 		Order allow,deny
 		Allow from all
 	</Directory>
