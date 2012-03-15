@@ -34,6 +34,9 @@ class likes(models.Model):
     
     class Meta:
         unique_together = ('user', 'rusk')
+        
+    def __unicode__(self):
+        return u'%s %s' % (self.user, self.rusk.title)
     
 class comments(models.Model):
     user = models.ForeignKey(User)
