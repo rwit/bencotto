@@ -5,15 +5,7 @@
 .settings/
 site/bin/*
 site/build/*
-site/db/*
 site/include/*
 site/lib/*
-site/local/*
-site/log/*
-site/media/*
-site/pid/*
-site/sock/*
-site/static/*
-site/tmp/*
-site/uploads/*
+site/local
 site/bencotto/etc
