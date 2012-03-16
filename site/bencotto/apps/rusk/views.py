@@ -6,8 +6,8 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as authlogin
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
-from bencotto.rusk.models import rusk, likes, comments
-from bencotto.rusk.forms import RuskForm
+from rusk.models import rusk, likes, comments
+from rusk.forms import RuskForm
 import logging
  
  

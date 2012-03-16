@@ -1,5 +1,5 @@
 from django.contrib import admin
-from bencotto.rusk.models import *
+from rusk.models import *
 
 class ruskAdmin(admin.ModelAdmin):
     list_display = ('title', 'user', 'date_added', 'views', 'image')

@@ -1,6 +1,18 @@
 #Common settings shared between development and production
+import sys
 import os.path
 import django.conf.global_settings as DEFAULT_SETTINGS
+
+#Points to the tip of the project (where manage.py is located)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+#SITE_ROOT points to the tip of the site (one level above project-root)
+SITE_ROOT = os.path.dirname(PROJECT_ROOT)
+
+sys.path.append(SITE_ROOT)
+sys.path.append(os.path.join(PROJECT_ROOT, 'apps'))
+sys.path.append(os.path.join(PROJECT_ROOT, 'libs'))
+#raise NameError(PROJECT_ROOT)
 
 ADMINS = (
     ('Paul Bormans', 'peebor@gmail.com'),
@@ -33,12 +45,12 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media_root')
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = 'http://localhost:8000/media_root/'
+MEDIA_URL = 'http://localhost:8000/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -60,7 +72,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(os.path.dirname(__file__), 'static').replace('\\','/'),
+    os.path.join(PROJECT_ROOT, 'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -93,8 +105,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'bencotto.urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'rusk', 'templates'),
-    os.path.join(os.path.dirname(__file__), 'templates'),
+    os.path.join(PROJECT_ROOT, 'rusk', 'templates'),
+    os.path.join(PROJECT_ROOT, 'templates'),
 )
 
 THUMBNAIL_SIDEBAR_SIZE = (140, 140)

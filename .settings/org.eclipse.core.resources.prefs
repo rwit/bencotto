@@ -1,8 +1,0 @@
-#Mon Feb 20 18:47:32 CET 2012
-eclipse.preferences.version=1
-encoding//bencotto/rusk/migrations/0002_auto__del_rusk_comments__add_comments__add_likes__add_field_rusk_user.py=utf-8
-encoding//bencotto/rusk/migrations/0005_auto__add_unique_likes_rusk_user.py=utf-8
-encoding//bencotto/rusk/migrations/0006_auto__add_field_comments_user__add_unique_comments_comment_rusk_user.py=utf-8
-encoding//bencotto/rusk/migrations/0007_auto__del_unique_comments_comment_rusk_user__add_unique_comments_rusk_.py=utf-8
-encoding//bencotto/settings.py=UTF-8
-encoding//bencotto/urls.py=UTF-8

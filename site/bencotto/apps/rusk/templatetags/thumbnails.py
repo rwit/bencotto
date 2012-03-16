@@ -1,6 +1,6 @@
 from django.conf import settings
 from django import template
-from bencotto.rusk.image_processing import image_processing
+from rusk.image_processing import image_processing
 
 register = template.Library()
 

@@ -1,5 +1,5 @@
 import os.path
-from settings_common import *
+from settings.settings_common import *
 
 DEBUG = False
 TEMPLATE_DEBUG = False

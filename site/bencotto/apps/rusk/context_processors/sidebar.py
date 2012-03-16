@@ -1,5 +1,5 @@
 from django.db.models import Count
-from bencotto.rusk.models import rusk, likes
+from rusk.models import rusk, likes
 
 def sidebarLikedMostRusk(request):
     #select the rusk that is liked the most using aggregation
