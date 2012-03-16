@@ -1,9 +1,11 @@
+*.~*#
 *.class
 *.pyc
 *.pyo
 .settings/
 site/bin/*
 site/build/*
+site/db/*
 site/include/*
 site/lib/*
 site/local/*

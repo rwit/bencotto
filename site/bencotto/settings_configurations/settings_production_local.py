@@ -1,9 +1,17 @@
 import os.path
-from settings.settings_common import *
+from settings_configurations.settings_common import *
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-INTERNAL_IPS = ('127.0.0.1') #Enable the debug context processor
+DEBUG = False
+TEMPLATE_DEBUG = False
+
+#DEBUG = True
+#TEMPLATE_DEBUG = DEBUG
+#INTERNAL_IPS = ('127.0.0.1') #Enable the debug context processor
+
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
+MEDIA_URL = 'http://bencotto.local/media/'
 
 DATABASES = {
     'default': {
@@ -34,11 +42,11 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'apps.rusk',
     'south',
-    'django_coverage', #enables to run "python manage.py test_coverage rusk -v2" for coverage information
+    #'django_coverage', #enables to run "python manage.py test_coverage rusk -v2" for coverage information
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
-    'django.core.context_processors.request',
+    #'django.core.context_processors.request',
     'rusk.context_processors.sidebar.sidebar',
     'rusk.context_processors.tabs.tabs',
 )
@@ -82,13 +90,5 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'rusk.views': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
     }
 }
-
-# django_coverage settings (overloading defaults from /usr/local/lib/python2.7/dist-packages/django_coverage/settings.py)
-COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(SITE_ROOT, 'test', 'reports')

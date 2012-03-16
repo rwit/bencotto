@@ -1,13 +1,19 @@
 import os.path
-from settings.settings_common import *
+from settings_configurations.settings_common import *
 
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+INTERNAL_IPS = ('127.0.0.1') #Enable the debug context processor
+
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
+MEDIA_URL = 'http://localhost:8000/media/'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(os.path.dirname(__file__), 'sqlite.db'),
+        'NAME': os.path.join(SITE_ROOT, 'db', 'sqlite.db'),
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -31,13 +37,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'rusk',
+    'apps.rusk',
     'south',
-    #'django_coverage', #enables to run "python manage.py test_coverage rusk -v2" for coverage information
+    'django_coverage', #enables to run "python manage.py test_coverage rusk -v2" for coverage information
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
-    #'django.core.context_processors.request',
+    'django.core.context_processors.request',
     'rusk.context_processors.sidebar.sidebar',
     'rusk.context_processors.tabs.tabs',
 )
@@ -55,7 +61,7 @@ LOGGING = {
             'class' : 'logging.handlers.RotatingFileHandler',
             'formatter': 'simple',
             'level': 'DEBUG',
-            'filename': os.path.join(os.path.dirname(__file__), 'logging', 'logging.log'),
+            'filename': os.path.join(SITE_ROOT, 'log', 'logging.log'),
             'maxBytes': 65536,
             'backupCount': 3,
         },
@@ -76,10 +82,18 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'bencotto.rusk.image_processing.image_processing': {
+        'rusk.image_processing.image_processing': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'rusk.views': {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
         },
     }
 }
+
+# django_coverage settings (overloading defaults from /usr/local/lib/python2.7/dist-packages/django_coverage/settings.py)
+COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(SITE_ROOT, 'test', 'reports')
