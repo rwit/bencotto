@@ -1,0 +1,9 @@
+<uwsgi>
+    <socket>127.0.0.1:3031</socket>
+    <workers>4</workers>
+    <uid>1000</uid>
+    <plugin>python</plugin>
+    <virtualenv>/usr/local/bencotto/bencotto/site</virtualenv>
+    <wsgi-file>bencotto/etc/wsgi_handler.py</wsgi-file>
+    <logto>log/uwsgi.log</logto>
+</uwsgi>

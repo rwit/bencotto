@@ -64,7 +64,7 @@ LOGGING = {
             'class' : 'logging.handlers.RotatingFileHandler',
             'formatter': 'simple',
             'level': 'DEBUG',
-            'filename': os.path.join(SITE_ROOT, 'log', 'logging.log'),
+            'filename': os.path.join(SITE_ROOT, 'log', 'django.log'),
             'maxBytes': 65536,
             'backupCount': 3,
         },
