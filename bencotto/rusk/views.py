@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as authlogin
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from bencotto.rusk.models import rusk, likes, comments
-from bencotto.rusk.forms import RuskForm
+from bencotto.rusk.forms import RuskForm, LikeForm
 import logging
  
  
@@ -65,6 +65,7 @@ def show_rusk(request, ruskId):
         ruskId = int(ruskId)
     except ValueError:
         raise Http404()
+
     #increment the views count
     rusk.objects.filter(id=ruskId).update(views=F('views')+1)
     
@@ -80,14 +81,38 @@ def show_rusk(request, ruskId):
         'INNER JOIN "auth_user" T4 ON ("rusk_rusk"."user_id" = T4."id") ' +
         'WHERE "rusk_rusk"."id" = "' + str(ruskId) + '" ' +
         'GROUP BY "rusk_likes"."rusk_id" ')
-    
-    # find out if the user already has liked this rusk
-    if likes.objects.filter(rusk__id = ruskId, user = request.user):
-        already_liked = True
-    else:
-        already_liked = False
 
+    # find out if the user already has liked this rusk
+    try:
+        if likes.objects.filter(rusk__id = str(ruskId), user = request.user):
+            already_liked = True
+        else:
+            already_liked = False
+    except TypeError:
+            already_liked = False
+        
     return render_to_response('rusk.html', {'singleRusk': r[0], 'already_liked': already_liked}, context_instance=RequestContext(request))
+
+@login_required
+def like(request):
+    if request.method == 'POST':
+        form = LikeForm(request.POST)
+        
+        if form.is_valid():
+            like = form.save(commit=False)
+            like.user = request.user
+            like.save()
+            
+            return HttpResponseRedirect('')
+        else:
+            likes = LikeForm()
+
+        return render_to_response('add.html', {'form': form,}, context_instance=RequestContext(request))
+
+            
+            
+
+
 
 @login_required
 def add(request):
