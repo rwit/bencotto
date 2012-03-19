@@ -1,8 +1,12 @@
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/..')
+path = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(path)
+sys.path.append(path + '/..')
+    
 os.environ['DJANGO_SETTINGS_MODULE'] = 'bencotto.settings_production'
+#os.environ['DJANGO_SETTINGS_MODULE'] = 'bencotto.settings_development'
 
 import django.core.handlers.wsgi
 

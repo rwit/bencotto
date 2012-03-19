@@ -1,3 +1,4 @@
+import os.path
 from settings_common import *
 
 DEBUG = True
@@ -7,7 +8,7 @@ INTERNAL_IPS = ('127.0.0.1') #Enable the debug context processor
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'sqlite.db',
+        'NAME': os.path.join(os.path.dirname(__file__), 'sqlite.db'),
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -77,6 +78,11 @@ LOGGING = {
             'propagate': True,
         },
         'bencotto.rusk.image_processing.image_processing': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'rusk.views': {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
