@@ -5,13 +5,7 @@ Dajax
 
 Planning:
 =========
-P ImageField toevoegen
-R listing view + landing page
-R Templates maken
-R Likes + Unlike + unfollow
+
+R Likes + Unlike + unfollow: 
 R Registratie
 R Logout
-P Views
-
-Backlog:
-- sidebar geeft geen info als je bent ingelogd

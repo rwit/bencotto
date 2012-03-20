@@ -3,7 +3,6 @@
 {% block content %}
 <div class="row-fluid show-grid">
   <div class="span12">
-  	<p>{{ users_who_liked_this_rusk }}</p>
   	{% if user.is_authenticated %}
   		{% if already_liked %}
     		<h2>{{ singleRusk.title }} <button class="btn btn-warning" href="#">Unlike</button></h2>
