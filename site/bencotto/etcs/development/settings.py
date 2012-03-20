@@ -1,17 +1,14 @@
 import os.path
-from settings_configurations.settings_common import *
+from settings_common.settings import *
 
-DEBUG = False
-TEMPLATE_DEBUG = False
-
-#DEBUG = True
-#TEMPLATE_DEBUG = DEBUG
-#INTERNAL_IPS = ('127.0.0.1') #Enable the debug context processor
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+INTERNAL_IPS = ('127.0.0.1') #Enable the debug context processor
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = 'http://bencotto.local/media/'
+MEDIA_URL = 'http://localhost:8000/media/'
 
 DATABASES = {
     'default': {
@@ -42,11 +39,11 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'apps.rusk',
     'south',
-    #'django_coverage', #enables to run "python manage.py test_coverage rusk -v2" for coverage information
+    'django_coverage', #enables to run "python manage.py test_coverage rusk -v2" for coverage information
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
-    #'django.core.context_processors.request',
+    'django.core.context_processors.request',
     'rusk.context_processors.sidebar.sidebar',
     'rusk.context_processors.tabs.tabs',
 )
@@ -64,7 +61,7 @@ LOGGING = {
             'class' : 'logging.handlers.RotatingFileHandler',
             'formatter': 'simple',
             'level': 'DEBUG',
-            'filename': os.path.join(SITE_ROOT, 'log', 'django.log'),
+            'filename': os.path.join(SITE_ROOT, 'log', 'logging.log'),
             'maxBytes': 65536,
             'backupCount': 3,
         },
@@ -90,5 +87,13 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'rusk.views': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     }
 }
+
+# django_coverage settings (overloading defaults from /usr/local/lib/python2.7/dist-packages/django_coverage/settings.py)
+COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(SITE_ROOT, 'test', 'reports')
