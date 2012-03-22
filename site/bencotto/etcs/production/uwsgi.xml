@@ -1,5 +1,6 @@
 <uwsgi>
     <socket>127.0.0.1:3031</socket>
+    <master/>
     <workers>4</workers>
     <uid>1000</uid>
     <plugin>python</plugin>
