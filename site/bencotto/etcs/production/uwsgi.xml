@@ -2,9 +2,11 @@
     <socket>127.0.0.1:3031</socket>
     <master/>
     <workers>4</workers>
-    <uid>1000</uid>
+    <harakiri>120</harakiri>
+    <uid>www-data</uid>
     <plugin>python</plugin>
     <virtualenv>/usr/local/bencotto/bencotto/site</virtualenv>
     <wsgi-file>bencotto/etc/wsgi_handler.py</wsgi-file>
     <logto>log/uwsgi.log</logto>
+    <pidfile>pid/uwsgi.pid</pidfile>
 </uwsgi>
